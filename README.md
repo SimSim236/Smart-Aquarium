@@ -18,7 +18,10 @@ Ce projet a été réalisé dans notre cursus pour le Baccalauréat STI2D, duran
 
 **Système final :**
 
+![Application Finale](ressources/appView.png)
+
 ![Système final](ressources/imageSys.jpg)
+
 ![Système Assemblé]()
 
 ## Indispensables pour réalisations
@@ -26,7 +29,7 @@ Ce projet a été réalisé dans notre cursus pour le Baccalauréat STI2D, duran
 Pour mettre en oeuvre ce projet, vous avez besoin d'une carte Arduino UNO (Carte utilisé pour le projet), des éléments associés (LED RVB, Boutons (2), Buzzer, Résistances, Module RTC), un module de transmission (HC05) et pour combler tout cela, une petite application AppInventor (Controle à distance) ainsi qu'un téléphone Android pour la liaison.
 
 - [Arduino IDE](https://www.arduino.cc/en/software)
-- [Libraries](https://github.com/SimSim236/E-Garden/tree/main/librairies)
+- [Libraries](https://github.com/SimSim236/Smart-Aquarium/tree/main/librairies)
 
 **Outils importants :**
 
@@ -38,12 +41,15 @@ Pour mettre en oeuvre ce projet, vous avez besoin d'une carte Arduino UNO (Carte
 
 1. Clonez le dépôt :
    ```bash
-   git clone https://github.com/SimSim236/E-Garden.git
+   git clone https://github.com/SimSim236/Smart-Aquarium.git
    ```
-2. Ouvrez le fichier `E-Garden.ino` avec l'IDE Arduino.
-3. Installez les [Libraries](https://github.com/SimSim236/E-Garden/tree/main/librairies) nécessaires.
+2. Ouvrez le fichier `Aqua.ino` avec l'IDE Arduino.
+3. Installez les [Libraries](https://github.com/SimSim236/Smart-Aquarium/tree/main/librairies) nécessaires.
 4. Connectez votre carte Arduino à votre ordinateur.
 5. Compilez et téléversez le code sur votre carte.
+
+6. Installez l'application AppInventor sur votre téléphone Android (AquariumMaurice.apk).
+7. Lancer l'application et connectez-vous au module Bluetooth.
 
 ## License
 
