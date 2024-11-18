@@ -29,14 +29,13 @@
 */
 
 // Libraries
-#include <Servo.h>
-#include <DS3231.h>
-#include <SoftwareSerial.h>
-#include <EEPROM.h>
+#include <Servo.h>          // Servo motor
+#include <DS3231.h>         // RTC
+#include <SoftwareSerial.h> // Bluetooth
+#include <EEPROM.h>         // EEPROM - Stockage de données
+#include <BuzzerSong.h>     // Buzzer - Take On Me -> Aha
 
-#include <BuzzerSong.h>
-
-// Define (R)
+// Define (Pins)
 #define rxPin 2
 #define txPin 3
 
@@ -54,7 +53,7 @@
 String msg;
 char Incoming_value = 0;
 
-int stopAngle = 88;  // Position d'arrêt moteur
+int stopAngle = 87;  // Position d'arrêt moteur - 87° Lycée
 int moveAngle = 180; // Angle de rotation du servo
 int p;               // Nombre de poissons
 
@@ -66,7 +65,7 @@ int hourCount = 0;
 int minuteCount = 0;
 int nbreH;
 
-// Variable pour les états des modes
+// Variables pour les états des modes
 bool manualMode = false;
 
 // Déclaration des objets
@@ -111,6 +110,8 @@ void setup()
     pinMode(boutonPinM, INPUT);
     pinMode(boutonPinD, INPUT);
     Serial.println("Initialize Components");
+
+    // Initialisation EEPROM - Stockage des données
     Serial.println("Initialize EEPROM");
     Serial.println();
 
@@ -128,7 +129,7 @@ void setup()
         {
             EEPROM.get(10 + i * sizeof(int), feedHours[i]);
             EEPROM.get(50 + i * sizeof(int), feedMinutes[i]);
-            Serial.println("Distribution Auto: " + String(feedHours[i]) + "h" + String(feedMinutes[i]));
+            Serial.println("Heure de distriubtion: " + String(feedHours[i]) + "h" + String(feedMinutes[i]));
         }
     }
     Serial.println(String(p) + " poissons");
@@ -146,6 +147,9 @@ void loop()
     myServo.write(stopAngle); // Position initiale du servo
     delay(500);
     dt = clock.getDateTime();
+
+    // Serial.println(dt.hour);
+    // Serial.println(dt.minute);
 
     int etat1 = digitalRead(boutonPinM); // Bouton Mode Manuel -> Bleu
     int etat2 = digitalRead(boutonPinD); // Bouton Distribution -> Jaune
@@ -194,6 +198,7 @@ void loop()
     {
         readSerialPort();
         Incoming_value = bluetooth.read();
+        // Serial.println(msg);
         if (msg.startsWith("D") && manualMode == true)
         { // Commande pour distribution manuelle
             distributeFood();
@@ -213,8 +218,8 @@ void loop()
             delay(500);
         }
         else if (msg.startsWith("P"))
-        { // Commande pour mettre à jour le nombre de poissons
-            String value_str = msg.substring(1);
+        {                                        // Commande pour mettre à jour le nombre de poissons
+            String value_str = msg.substring(1); // Extraire la partie après "P"
             p = value_str.toInt();
             Serial.print("Nombre de poissons mis à jour: ");
             Serial.println(p);
@@ -238,7 +243,7 @@ void loop()
         else if (msg.startsWith("Im"))
         { // Commande pour mettre à jour les minutes de distribution
             minuteCount = 0;
-            String value_str = msg.substring(2);
+            String value_str = msg.substring(2); // Récupère la sous-chaîne après "Mi"
             processMinutes(value_str);
             Serial.println("Minutes de distribution :");
             for (int i = 0; i < minuteCount; i++)
