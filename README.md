@@ -14,11 +14,11 @@ Ce projet a été réalisé dans notre cursus pour le Baccalauréat STI2D, duran
 
 **Simulation sur TinkerCad :**
 
-![Simulation](ressources/simulationEGarden.png)
+![Simulation](ressources/simulationAqua.png)
 
 **Système final :**
 
-![Application Finale](ressources/appView.png)
+![Application Finale](ressources/appView.jpg)
 
 ![Système final](ressources/imageSys.jpg)
 
