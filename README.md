@@ -22,7 +22,7 @@ Ce projet a été réalisé dans notre cursus pour le Baccalauréat STI2D, duran
 
 ![Système final](ressources/imageSys.jpg)
 
-![Système Assemblé]()
+![Système Assemblé](ressources/systemFinal.jpg)
 
 ## Indispensables pour réalisations
 
