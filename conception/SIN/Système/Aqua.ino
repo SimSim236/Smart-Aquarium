@@ -21,6 +21,7 @@
  * - Bibliothèque de base Arduino
  * - Bibliothèques de contrôle de capteurs (DS3231 (RTC))
  * - Bibliothèques de contrôle des actionneurs (Servo, Buzzer)
+ * - Bibliothèque personnel (BuzzerSong)
  *
  * Auteur : [Sim & Lutr4nn]
  * Date : [2024]
@@ -51,10 +52,10 @@
 // Variables
 
 String msg;
-char Incoming_value = 0;
 
-int stopAngle = 87;  // Position d'arrêt moteur - 87° Lycée
-int moveAngle = 180; // Angle de rotation du servo
+// Variable pour le moteur & répétitions
+int stopAngle = 87;  // Position d'arrêt moteur - 87° Lycée / 88° Home
+int moveAngle = 100; // Angle de rotation du servo
 int p;               // Nombre de poissons
 
 // Variables pour les heures de distribution
@@ -148,9 +149,6 @@ void loop()
     delay(500);
     dt = clock.getDateTime();
 
-    // Serial.println(dt.hour);
-    // Serial.println(dt.minute);
-
     int etat1 = digitalRead(boutonPinM); // Bouton Mode Manuel -> Bleu
     int etat2 = digitalRead(boutonPinD); // Bouton Distribution -> Jaune
 
@@ -197,8 +195,6 @@ void loop()
     if (bluetooth.available() > 0)
     {
         readSerialPort();
-        Incoming_value = bluetooth.read();
-        // Serial.println(msg);
         if (msg.startsWith("D") && manualMode == true)
         { // Commande pour distribution manuelle
             distributeFood();
@@ -253,7 +249,18 @@ void loop()
             }
             Serial.println();
         }
-        else if (Incoming_value == ' ' || Incoming_value == 'D' && manualMode == false)
+        else if (msg.startsWith("Mo"))
+        { // Commande pour changer l'angle du moteur si soucis
+            if (stopAngle == 87)
+            {
+                stopAngle = 88;
+            }
+            else
+            {
+                stopAngle = 87;
+            }
+        }
+        else if (msg.startsWith == ' ' || msg.startsWith == 'D' && manualMode == false)
         { // En cas d'erreur // Commande invalide
             bluetooth.println("Error, try again.");
             clignoterLED(255, 0, 0, 3); // Rouge
@@ -270,12 +277,12 @@ void distributeFood()
     for (int i = 0; i < p; i++)
     {
         setLEDColor(255, 255, 0); // Jaune
-        myServo.write(-moveAngle);
+        myServo.write(moveAngle);
         delay(1000);
         myServo.write(stopAngle);
         delay(2000);
-        myServo.write(moveAngle);
-        delay(1000);
+        myServo.write(-moveAngle);
+        delay(450);
         myServo.write(stopAngle);
         delay(3000);
     }
